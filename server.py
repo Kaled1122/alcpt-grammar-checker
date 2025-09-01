@@ -20,7 +20,7 @@ if not OPENAI_API_KEY:
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})  # ✅ Allow all origins
 
 # ---------------------------
 # Load grammar points
@@ -70,7 +70,7 @@ Learner sentence (English only expected):
 """
 
 # ---------------------------
-# Save learner logs (CSV)
+# Save learner logs (CSV only)
 # ---------------------------
 LOG_FILE = "learner_logs.csv"
 
