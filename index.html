@@ -17,7 +17,7 @@
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       padding: 30px;
-      max-width: 640px;
+      max-width: 700px;
       width: 100%;
     }
     h2 {
@@ -145,34 +145,44 @@
     const resultBox = document.getElementById("resultBox");
     const liveTranscript = document.getElementById("liveTranscript");
     const backendUrl = "https://alcpt-grammar-checker.onrender.com"; // replace with your Render backend URL
+    let grammarPoints = [];
 
     // Load grammar points
     fetch(`${backendUrl}/api/grammar-points`)
       .then(res => res.json())
       .then(points => {
+        grammarPoints = points;
         points.forEach(p => {
           const opt = document.createElement("option");
           opt.value = p.id;
-          opt.textContent = `${p.id}. ${p.title || p.label || "Untitled"}`;
+          opt.textContent = `${p.id}. ${p.title} — ${p.rule} (Example: ${p.example})`;
           grammarPointSelect.appendChild(opt);
         });
       });
 
     // Format result
-    function renderResult(data) {
+    function renderResult(data, grammarId) {
       if (data.error) {
         resultBox.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
         return;
       }
+
+      // Find selected grammar point
+      const gp = grammarPoints.find(p => String(p.id) === String(grammarId));
+
       resultBox.innerHTML = `
         <p><strong>Original:</strong> ${data.transcript || ""}</p>
         <p><strong>Corrected:</strong> <span style="color:${data.grammar_ok ? 'green':'red'};">${data.corrected || ""}</span></p>
         <p><strong>Explanation:</strong> ${data.explanation || ""}</p>
-        <p><strong>Grammar Point:</strong> ${data.matched_grammar_label || "N/A"}</p>
+        <p><strong>Matched Grammar Point:</strong> ${data.matched_grammar_label || "N/A"}</p>
         <p><strong>Score:</strong> ${data.score || 0}%</p>
         <div class="progress-bar">
           <div class="progress" style="width:${data.score || 0}%">${data.score || 0}%</div>
         </div>
+        ${gp ? `
+        <hr>
+        <p><strong>Grammar Rule:</strong> ${gp.rule}</p>
+        <p><strong>Example:</strong> ${gp.example}</p>` : ""}
       `;
     }
 
@@ -202,7 +212,7 @@
 
       const res = await fetch(`${backendUrl}/api/text`, { method: "POST", body: formData });
       const data = await res.json();
-      renderResult(data);
+      renderResult(data, grammarId);
     });
 
     // Recording logic
@@ -239,7 +249,7 @@
 
           const res = await fetch(`${backendUrl}/api/grammar`, { method: "POST", body: formData });
           const data = await res.json();
-          renderResult(data);
+          renderResult(data, grammarId);
           liveTranscript.textContent = "";
         };
 
