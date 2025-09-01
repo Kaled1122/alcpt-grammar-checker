@@ -1,0 +1,422 @@
+[
+  {
+    "id": 1,
+    "title": "Comparative Adjectives",
+    "rule": "Add -er + than to compare two things.",
+    "example": "Tom is taller than Bob."
+  },
+  {
+    "id": 2,
+    "title": "Superlative Adjectives",
+    "rule": "Add -est to show the highest degree among three or more.",
+    "example": "Tom is the tallest student in his class."
+  },
+  {
+    "id": 3,
+    "title": "Indefinite Adjectives",
+    "rule": "Describe nouns in a non-specific way.",
+    "example": "Some people like coffee."
+  },
+  {
+    "id": 4,
+    "title": "Adjectives",
+    "rule": "Describe or modify nouns. Usually come before the noun.",
+    "example": "She has a big house."
+  },
+  {
+    "id": 5,
+    "title": "Adverbs",
+    "rule": "Describe verbs, adjectives, or other adverbs.",
+    "example": "He runs quickly."
+  },
+  {
+    "id": 6,
+    "title": "Adverbs of Frequency",
+    "rule": "Tell how often something happens. Place before main verb, after BE.",
+    "example": "She is always late."
+  },
+  {
+    "id": 7,
+    "title": "Verb 'Use'",
+    "rule": "Can be followed by a noun/pronoun and either a gerund or infinitive.",
+    "example": "I use a laptop for work."
+  },
+  {
+    "id": 8,
+    "title": "Indefinite Pronouns",
+    "rule": "Refer to people or things in a general way.",
+    "example": "Someone is at the door."
+  },
+  {
+    "id": 9,
+    "title": "Comparatives",
+    "rule": "Use comparative adjectives to compare two things.",
+    "example": "This book is more interesting than that one."
+  },
+  {
+    "id": 10,
+    "title": "Long Comparatives",
+    "rule": "Use more/less + adjective with 2+ syllables. Add 'than'.",
+    "example": "She is more beautiful than her sister."
+  },
+  {
+    "id": 11,
+    "title": "Superlatives",
+    "rule": "Use superlative adjectives to show highest or lowest degree.",
+    "example": "He is the best player on the team."
+  },
+  {
+    "id": 12,
+    "title": "Whom",
+    "rule": "Ask about the object of a verb or preposition.",
+    "example": "To whom did you speak?"
+  },
+  {
+    "id": 13,
+    "title": "Possessive Pronouns",
+    "rule": "Show ownership and replace a noun + adjective.",
+    "example": "This book is mine."
+  },
+  {
+    "id": 14,
+    "title": "Mental Verbs + Infinitive",
+    "rule": "Use mental verbs + to + base verb as direct object.",
+    "example": "I decided to leave."
+  },
+  {
+    "id": 15,
+    "title": "Be Going To (Future)",
+    "rule": "Use 'be going to' for future plans.",
+    "example": "I am going to travel tomorrow."
+  },
+  {
+    "id": 16,
+    "title": "Be Going To (Questions)",
+    "rule": "Begin sentence with BE to ask about future plans.",
+    "example": "Are you going to study tonight?"
+  },
+  {
+    "id": 17,
+    "title": "Wh- Questions (Future)",
+    "rule": "Use WH + BE going to + subject.",
+    "example": "What are you going to do?"
+  },
+  {
+    "id": 18,
+    "title": "Reported Commands",
+    "rule": "Use 'tell' + person + that-clause.",
+    "example": "She told me that I should wait."
+  },
+  {
+    "id": 19,
+    "title": "May / Might",
+    "rule": "Talk about possibility (uncertain).",
+    "example": "It may rain tomorrow."
+  },
+  {
+    "id": 20,
+    "title": "Predicate Adjectives + That-Clause",
+    "rule": "Some adjectives are followed by a that-clause.",
+    "example": "I am sure that he is right."
+  },
+  {
+    "id": 21,
+    "title": "How (Method)",
+    "rule": "Ask in what way or method.",
+    "example": "How do you make bread?"
+  },
+  {
+    "id": 22,
+    "title": "Because",
+    "rule": "Connect two clauses. Explains reason.",
+    "example": "I stayed home because it was raining."
+  },
+  {
+    "id": 23,
+    "title": "Adverbs of Manner",
+    "rule": "Describe how an action is done.",
+    "example": "He speaks slowly."
+  },
+  {
+    "id": 24,
+    "title": "Comparative Adjectives (Similar/Different)",
+    "rule": "Show if things are same, similar, or different.",
+    "example": "My car is as fast as yours."
+  },
+  {
+    "id": 25,
+    "title": "Noun Clauses",
+    "rule": "Use that-clause after mental verbs as object.",
+    "example": "I think that he is right."
+  },
+  {
+    "id": 26,
+    "title": "Present Progressive (Future)",
+    "rule": "Use to talk about planned future events.",
+    "example": "I am meeting him tomorrow."
+  },
+  {
+    "id": 27,
+    "title": "Linking Verbs",
+    "rule": "Connect subject to description (not action).",
+    "example": "She is a teacher."
+  },
+  {
+    "id": 28,
+    "title": "Past Progressive",
+    "rule": "Action in progress at a specific past time.",
+    "example": "I was studying at 8 PM."
+  },
+  {
+    "id": 29,
+    "title": "Reported Requests",
+    "rule": "Use ask/tell + person + to + base verb.",
+    "example": "She told me to sit down."
+  },
+  {
+    "id": 30,
+    "title": "Should (Advice)",
+    "rule": "Say what is the right/best thing to do.",
+    "example": "You should eat healthy food."
+  },
+  {
+    "id": 31,
+    "title": "Could (Suggestions)",
+    "rule": "Offer polite ideas/options.",
+    "example": "You could try restarting your computer."
+  },
+  {
+    "id": 32,
+    "title": "Apologize For",
+    "rule": "Use 'apologize for' + -ing verb.",
+    "example": "I apologize for being late."
+  },
+  {
+    "id": 33,
+    "title": "Dummy 'It'",
+    "rule": "Use 'it' for time, weather, distance.",
+    "example": "It is raining."
+  },
+  {
+    "id": 34,
+    "title": "Adverbs of Time",
+    "rule": "Connect two actions/events by showing when.",
+    "example": "I will call you after dinner."
+  },
+  {
+    "id": 35,
+    "title": "How Far",
+    "rule": "Ask about distance between two places.",
+    "example": "How far is it from here to Riyadh?"
+  },
+  {
+    "id": 36,
+    "title": "Prepositions of Place",
+    "rule": "Show location with a noun.",
+    "example": "The book is on the table."
+  },
+  {
+    "id": 37,
+    "title": "Simple Present (Future Events)",
+    "rule": "Talk about scheduled future events.",
+    "example": "The train leaves at 6 PM."
+  },
+  {
+    "id": 38,
+    "title": "Gerunds",
+    "rule": "-ing form used as a noun.",
+    "example": "Swimming is fun."
+  },
+  {
+    "id": 39,
+    "title": "Be Supposed To",
+    "rule": "Talk about expectations.",
+    "example": "I am supposed to finish this today."
+  },
+  {
+    "id": 40,
+    "title": "How + Infinitive",
+    "rule": "Use after verbs like know, learn, show.",
+    "example": "She taught me how to swim."
+  },
+  {
+    "id": 41,
+    "title": "Modal Requests",
+    "rule": "Use could/would for polite requests.",
+    "example": "Could you help me?"
+  },
+  {
+    "id": 42,
+    "title": "Adjectives + Infinitive",
+    "rule": "Some adjectives are followed by to + base verb.",
+    "example": "I am happy to see you."
+  },
+  {
+    "id": 43,
+    "title": "Reported Commands (to + verb)",
+    "rule": "Tell someone what another person said to do.",
+    "example": "He told me to wait outside."
+  },
+  {
+    "id": 44,
+    "title": "Ability Modal (Be able to)",
+    "rule": "Show ability across different tenses.",
+    "example": "She is able to drive."
+  },
+  {
+    "id": 45,
+    "title": "Adjective Clauses",
+    "rule": "Describe a noun, usually follow it.",
+    "example": "The man who is wearing a hat is my uncle."
+  },
+  {
+    "id": 46,
+    "title": "Too / Enough",
+    "rule": "Show something is more than needed or not suitable.",
+    "example": "It is too hot to play outside."
+  },
+  {
+    "id": 47,
+    "title": "Adjective Suffix -y",
+    "rule": "Turns nouns into adjectives, meaning 'full of'.",
+    "example": "The sky is cloudy."
+  },
+  {
+    "id": 48,
+    "title": "How Long",
+    "rule": "Ask about length of time.",
+    "example": "How long have you lived here?"
+  },
+  {
+    "id": 49,
+    "title": "Prepositions of Time",
+    "rule": "Show when something happens.",
+    "example": "We met at 5 o’clock."
+  },
+  {
+    "id": 50,
+    "title": "Indefinite Pronouns (People)",
+    "rule": "Refer generally to people when identity unknown.",
+    "example": "Anybody can join."
+  },
+  {
+    "id": 51,
+    "title": "Present Perfect (Continuing)",
+    "rule": "Actions that started in past and continue now.",
+    "example": "I have lived here for 10 years."
+  },
+  {
+    "id": 52,
+    "title": "Present Perfect (Experiences)",
+    "rule": "Ask about experiences up to now.",
+    "example": "Have you ever been to Japan?"
+  },
+  {
+    "id": 53,
+    "title": "Infinitive of Purpose",
+    "rule": "Show reason or purpose with to + verb.",
+    "example": "I study to pass the test."
+  },
+  {
+    "id": 54,
+    "title": "Become / Get",
+    "rule": "Show a change of state.",
+    "example": "She became tired."
+  },
+  {
+    "id": 55,
+    "title": "Could (Past Ability)",
+    "rule": "Say someone was able to do something in past.",
+    "example": "I could swim when I was a child."
+  },
+  {
+    "id": 56,
+    "title": "Ability vs. Possibility",
+    "rule": "Could/can show ability; may/might show possibility.",
+    "example": "She can play piano. It might rain."
+  },
+  {
+    "id": 57,
+    "title": "Present Perfect Continuous",
+    "rule": "Talk about actions that started in past and still continue.",
+    "example": "I have been studying all day."
+  },
+  {
+    "id": 58,
+    "title": "Reported Speech",
+    "rule": "Say what someone else said.",
+    "example": "She said she was tired."
+  },
+  {
+    "id": 59,
+    "title": "-ed vs -ing Adjectives",
+    "rule": "-ed describes feelings, -ing describes causes.",
+    "example": "I am bored. The movie is boring."
+  },
+  {
+    "id": 60,
+    "title": "Present Perfect (Result)",
+    "rule": "Use to describe a situation that began in past and continues.",
+    "example": "He has worked here since 2010."
+  },
+  {
+    "id": 61,
+    "title": "Comparative Adverbs",
+    "rule": "Use -er or more to compare actions.",
+    "example": "She runs faster than her brother."
+  },
+  {
+    "id": 62,
+    "title": "Adverbs of Time",
+    "rule": "Tell when something happens.",
+    "example": "I saw him yesterday."
+  },
+  {
+    "id": 63,
+    "title": "Conditional (Real)",
+    "rule": "Use 'if' to talk about real/likely conditions.",
+    "example": "If it rains, we will stay inside."
+  },
+  {
+    "id": 64,
+    "title": "Conjunctions (Or/So)",
+    "rule": "Or = choice, So = result.",
+    "example": "You can have tea or coffee. It was late, so I left."
+  },
+  {
+    "id": 65,
+    "title": "Reported Speech (Say/Said)",
+    "rule": "Change verb tense from present → past.",
+    "example": "He says he is tired → He said he was tired."
+  },
+  {
+    "id": 66,
+    "title": "Could (Possibility)",
+    "rule": "Talk about something possible but not certain.",
+    "example": "He could be the new manager."
+  },
+  {
+    "id": 67,
+    "title": "Used To",
+    "rule": "Talk about past routines or conditions, not true now.",
+    "example": "I used to play football every day."
+  },
+  {
+    "id": 68,
+    "title": "Would (Past Habit)",
+    "rule": "Talk about things done regularly in the past.",
+    "example": "When I was young, I would visit my grandmother often."
+  },
+  {
+    "id": 69,
+    "title": "Present Perfect (Past Actions)",
+    "rule": "Talk about actions that happened at some time before now.",
+    "example": "I have eaten sushi."
+  },
+  {
+    "id": 70,
+    "title": "Present Perfect WH-Questions",
+    "rule": "Ask about past experiences with WH-word.",
+    "example": "What have you done today?"
+  }
+]
