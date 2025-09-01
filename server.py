@@ -52,7 +52,8 @@ def make_prompt(user_text: str, selected_id: Optional[int]) -> str:
             selected_block = f"\nFocus on grammar point #{selected_point['id']}: {selected_point['title']}"
 
     return f"""
-You are an ESL grammar coach. Analyze the learner’s sentence and reply ONLY in valid JSON with:
+You are an ESL grammar coach. Analyze the learner’s sentence (always assume it should be English).
+Reply ONLY in valid JSON with:
 - corrected: string
 - explanation: string (simple explanation for learner)
 - grammar_ok: boolean
@@ -64,7 +65,7 @@ Grammar Points:
 {grammar_points_block()}
 {selected_block}
 
-Learner sentence:
+Learner sentence (English only expected):
 \"\"\"{user_text}\"\"\"
 """
 
@@ -92,7 +93,7 @@ def save_log(learner_id, data):
         writer.writerow(row)
 
 # ---------------------------
-# Whisper transcription
+# Whisper transcription (English only)
 # ---------------------------
 def transcribe_audio_to_text(file_storage) -> str:
     if file_storage is None:
@@ -104,7 +105,8 @@ def transcribe_audio_to_text(file_storage) -> str:
         with open(tmp_path, "rb") as audio_file:
             tr = client.audio.transcriptions.create(
                 model="whisper-1",
-                file=audio_file
+                file=audio_file,
+                language="en"   # 🔒 Force English transcription
             )
         return tr.text.strip() if hasattr(tr, "text") else ""
     except Exception as e:
@@ -121,7 +123,7 @@ def run_grammar_llm(user_text: str, grammar_id: Optional[int]) -> dict:
         model="gpt-4o-mini",
         temperature=0,
         messages=[
-            {"role": "system", "content": "You are a JSON-only ESL grammar evaluator. Always output ONLY valid JSON."},
+            {"role": "system", "content": "You are a JSON-only ESL grammar evaluator. Always output ONLY valid JSON. Assume learner input is English only."},
             {"role": "user", "content": prompt}
         ]
     )
@@ -158,7 +160,6 @@ def api_text():
     grammar_id = request.form.get("grammar_id", "").strip()
     typed = request.form.get("typed", "").strip()
 
-    # ✅ Validation
     if not learner_id.isdigit():
         return jsonify({"error": "Learner ID (numbers only) is required."}), 400
     if not grammar_id.isdigit():
@@ -182,17 +183,14 @@ def api_grammar():
     learner_id = request.form.get("learner_id", "").strip()
     grammar_id = request.form.get("grammar_id", "").strip()
 
-    # ✅ Validation
     if not learner_id.isdigit():
         return jsonify({"error": "Learner ID (numbers only) is required."}), 400
     if not grammar_id.isdigit():
         return jsonify({"error": "Grammar point selection is required."}), 400
 
-    # Check typed first
     typed = request.form.get("typed", "").strip()
     transcript = typed
 
-    # If no text → transcribe audio
     if not typed:
         file = request.files.get("audio")
         transcript = transcribe_audio_to_text(file)
