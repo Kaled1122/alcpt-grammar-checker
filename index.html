@@ -90,12 +90,13 @@
       font-weight: 600;
       color: #111;
     }
-    .result-box {
+    .info-box, .result-box {
       background: #f2f2f7;
       padding: 15px;
       border-radius: 12px;
       font-size: 14px;
       color: #111;
+      margin-top: 10px;
     }
     .progress-bar {
       background: #e5e5ea;
@@ -126,6 +127,7 @@
     <select id="grammarPoint" required>
       <option value="">-- Select a Grammar Point --</option>
     </select>
+    <div id="grammarInfo" class="info-box" style="display:none;"></div>
 
     <label for="sentence">Your Sentence</label>
     <textarea id="sentence" rows="3" placeholder="Type your sentence here..."></textarea>
@@ -142,6 +144,7 @@
 
   <script>
     const grammarPointSelect = document.getElementById("grammarPoint");
+    const grammarInfo = document.getElementById("grammarInfo");
     const resultBox = document.getElementById("resultBox");
     const liveTranscript = document.getElementById("liveTranscript");
     const backendUrl = "https://alcpt-grammar-checker.onrender.com"; // replace with your Render backend URL
@@ -155,10 +158,23 @@
         points.forEach(p => {
           const opt = document.createElement("option");
           opt.value = p.id;
-          opt.textContent = `${p.id}. ${p.title} — ${p.rule} (Example: ${p.example})`;
+          opt.textContent = `${p.id}. ${p.title}`;
           grammarPointSelect.appendChild(opt);
         });
       });
+
+    // Show description + example when grammar point is selected
+    grammarPointSelect.addEventListener("change", () => {
+      const gp = grammarPoints.find(p => String(p.id) === grammarPointSelect.value);
+      if (gp) {
+        grammarInfo.style.display = "block";
+        grammarInfo.innerHTML = `<strong>${gp.title}</strong><br>
+        <em>Rule:</em> ${gp.rule}<br>
+        <em>Example:</em> ${gp.example}`;
+      } else {
+        grammarInfo.style.display = "none";
+      }
+    });
 
     // Format result
     function renderResult(data, grammarId) {
@@ -166,9 +182,6 @@
         resultBox.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
         return;
       }
-
-      // Find selected grammar point
-      const gp = grammarPoints.find(p => String(p.id) === String(grammarId));
 
       resultBox.innerHTML = `
         <p><strong>Original:</strong> ${data.transcript || ""}</p>
@@ -179,10 +192,6 @@
         <div class="progress-bar">
           <div class="progress" style="width:${data.score || 0}%">${data.score || 0}%</div>
         </div>
-        ${gp ? `
-        <hr>
-        <p><strong>Grammar Rule:</strong> ${gp.rule}</p>
-        <p><strong>Example:</strong> ${gp.example}</p>` : ""}
       `;
     }
 
