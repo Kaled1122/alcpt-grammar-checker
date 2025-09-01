@@ -1,4 +1,4 @@
-k<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,7 +17,7 @@ k<!DOCTYPE html>
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       padding: 30px;
-      max-width: 600px;
+      max-width: 640px;
       width: 100%;
     }
     h2 {
@@ -69,6 +69,14 @@ k<!DOCTYPE html>
     }
     #sendBtn:hover {
       background: #006ae6;
+    }
+    #writeBtn {
+      background: #34c759;
+      color: white;
+      margin-right: 10px;
+    }
+    #writeBtn:hover {
+      background: #28a745;
     }
     #recordBtn {
       background: #e5e5ea;
@@ -129,7 +137,8 @@ k<!DOCTYPE html>
     <textarea id="sentence" rows="3" placeholder="Type your sentence here..."></textarea>
 
     <div>
-      <button id="sendBtn">Send</button>
+      <button id="sendBtn">Send (Speech/Text)</button>
+      <button id="writeBtn">Check Writing</button>
       <button id="recordBtn">🎤 Start Recording</button>
     </div>
     <div id="liveTranscript"></div>
@@ -142,7 +151,7 @@ k<!DOCTYPE html>
     const grammarPointSelect = document.getElementById("grammarPoint");
     const resultBox = document.getElementById("resultBox");
     const liveTranscript = document.getElementById("liveTranscript");
-    const backendUrl = "https://alcpt-grammar-checker.onrender.com"; // your Render backend
+    const backendUrl = "https://alcpt-grammar-checker.onrender.com"; // replace with your Render backend URL
 
     // Load grammar points
     fetch(`${backendUrl}/api/grammar-points`)
@@ -151,18 +160,17 @@ k<!DOCTYPE html>
         points.forEach(p => {
           const opt = document.createElement("option");
           opt.value = p.id;
-          opt.textContent = `${p.id}. ${p.title}`; // FIX: use title not label
+          opt.textContent = `${p.id}. ${p.title || p.label || "Untitled"}`;
           grammarPointSelect.appendChild(opt);
         });
       });
 
-    // Format result nicely
+    // Format result
     function renderResult(data) {
       if (data.error) {
         resultBox.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
         return;
       }
-
       resultBox.innerHTML = `
         <p><strong>Original:</strong> ${data.transcript || ""}</p>
         <p><strong>Corrected:</strong> <span style="color:${data.grammar_ok ? 'green':'red'};">${data.corrected || ""}</span></p>
@@ -175,7 +183,7 @@ k<!DOCTYPE html>
       `;
     }
 
-    // 📤 Send typed text
+    // Send (speech/text)
     document.getElementById("sendBtn").addEventListener("click", async () => {
       const learnerId = document.getElementById("learnerId").value;
       const grammarId = grammarPointSelect.value;
@@ -184,14 +192,35 @@ k<!DOCTYPE html>
       const formData = new FormData();
       formData.append("learner_id", learnerId);
       formData.append("grammar_id", grammarId);
-      formData.append("typed", sentence);
+      if (sentence) formData.append("typed", sentence);
 
       const res = await fetch(`${backendUrl}/api/grammar`, { method: "POST", body: formData });
       const data = await res.json();
       renderResult(data);
     });
 
-    // 🎤 Recording logic
+    // Writing check
+    document.getElementById("writeBtn").addEventListener("click", async () => {
+      const learnerId = document.getElementById("learnerId").value;
+      const grammarId = grammarPointSelect.value;
+      const sentence = document.getElementById("sentence").value;
+
+      if (!sentence) {
+        alert("Please type a sentence first!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("learner_id", learnerId);
+      formData.append("grammar_id", grammarId);
+      formData.append("typed", sentence);
+
+      const res = await fetch(`${backendUrl}/api/text`, { method: "POST", body: formData });
+      const data = await res.json();
+      renderResult(data);
+    });
+
+    // Recording logic
     let mediaRecorder, audioChunks = [], isRecording = false;
 
     document.getElementById("recordBtn").addEventListener("click", async () => {
