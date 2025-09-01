@@ -1,5 +1,6 @@
 import os
 import json
+import csv
 import tempfile
 from datetime import datetime
 from typing import Optional
@@ -7,7 +8,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
-from openpyxl import Workbook, load_workbook
 
 # ---------------------------
 # Config & setup
@@ -69,44 +69,27 @@ Learner sentence:
 """
 
 # ---------------------------
-# Save learner logs to Excel
+# Save learner logs (CSV)
 # ---------------------------
-LOG_FILE_XLSX = "learner_logs.xlsx"
+LOG_FILE = "learner_logs.csv"
 
 def save_log(learner_id, data):
-    row = [
-        learner_id,
-        datetime.now().isoformat(timespec="seconds"),
-        data.get("transcript"),
-        data.get("corrected"),
-        data.get("explanation"),
-        data.get("score"),
-        data.get("matched_grammar_label"),
-        data.get("selected_grammar_label"),
-    ]
-
-    if not os.path.exists(LOG_FILE_XLSX):
-        # Create workbook with headers
-        wb = Workbook()
-        ws = wb.active
-        ws.title = "Logs"
-        ws.append([
-            "Learner ID",
-            "Timestamp",
-            "Transcript",
-            "Correction",
-            "Explanation",
-            "Score",
-            "Matched Grammar Point",
-            "Selected Grammar Point",
-        ])
-        ws.append(row)
-        wb.save(LOG_FILE_XLSX)
-    else:
-        wb = load_workbook(LOG_FILE_XLSX)
-        ws = wb.active
-        ws.append(row)
-        wb.save(LOG_FILE_XLSX)
+    row = {
+        "learner_id": learner_id,
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "transcript": data.get("transcript"),
+        "correction": data.get("corrected"),
+        "explanation": data.get("explanation"),
+        "score": data.get("score"),
+        "grammar_point": data.get("matched_grammar_label"),
+        "selected_point": data.get("selected_grammar_label"),
+    }
+    file_exists = os.path.isfile(LOG_FILE)
+    with open(LOG_FILE, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=row.keys())
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(row)
 
 # ---------------------------
 # Whisper transcription
