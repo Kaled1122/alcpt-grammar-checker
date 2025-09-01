@@ -62,14 +62,6 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    #sendBtn {
-      background: #007aff;
-      color: white;
-      margin-right: 10px;
-    }
-    #sendBtn:hover {
-      background: #006ae6;
-    }
     #writeBtn {
       background: #34c759;
       color: white;
@@ -127,17 +119,18 @@
     <h2>ALCPT Preparation Program</h2>
     <p class="subtitle">Grammar Checker – Level 2</p>
 
-    <label for="learnerId">Learner ID</label>
-    <input type="number" id="learnerId" placeholder="Enter your ID (numbers only)" />
+    <label for="learnerId">Learner ID (required)</label>
+    <input type="number" id="learnerId" placeholder="Enter your ID (numbers only)" required />
 
-    <label for="grammarPoint">Select Grammar Point</label>
-    <select id="grammarPoint"></select>
+    <label for="grammarPoint">Select Grammar Point (required)</label>
+    <select id="grammarPoint" required>
+      <option value="">-- Select a Grammar Point --</option>
+    </select>
 
     <label for="sentence">Your Sentence</label>
     <textarea id="sentence" rows="3" placeholder="Type your sentence here..."></textarea>
 
     <div>
-      <button id="sendBtn">Send (Speech/Text)</button>
       <button id="writeBtn">Check Writing</button>
       <button id="recordBtn">🎤 Start Recording</button>
     </div>
@@ -183,28 +176,20 @@
       `;
     }
 
-    // Send (speech/text)
-    document.getElementById("sendBtn").addEventListener("click", async () => {
-      const learnerId = document.getElementById("learnerId").value;
-      const grammarId = grammarPointSelect.value;
-      const sentence = document.getElementById("sentence").value;
-
-      const formData = new FormData();
-      formData.append("learner_id", learnerId);
-      formData.append("grammar_id", grammarId);
-      if (sentence) formData.append("typed", sentence);
-
-      const res = await fetch(`${backendUrl}/api/grammar`, { method: "POST", body: formData });
-      const data = await res.json();
-      renderResult(data);
-    });
-
     // Writing check
     document.getElementById("writeBtn").addEventListener("click", async () => {
-      const learnerId = document.getElementById("learnerId").value;
+      const learnerId = document.getElementById("learnerId").value.trim();
       const grammarId = grammarPointSelect.value;
       const sentence = document.getElementById("sentence").value;
 
+      if (!learnerId) {
+        alert("Learner ID is required.");
+        return;
+      }
+      if (!grammarId) {
+        alert("Please select a grammar point.");
+        return;
+      }
       if (!sentence) {
         alert("Please type a sentence first!");
         return;
@@ -224,6 +209,18 @@
     let mediaRecorder, audioChunks = [], isRecording = false;
 
     document.getElementById("recordBtn").addEventListener("click", async () => {
+      const learnerId = document.getElementById("learnerId").value.trim();
+      const grammarId = grammarPointSelect.value;
+
+      if (!learnerId) {
+        alert("Learner ID is required.");
+        return;
+      }
+      if (!grammarId) {
+        alert("Please select a grammar point.");
+        return;
+      }
+
       if (!isRecording) {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorder = new MediaRecorder(stream);
@@ -236,8 +233,8 @@
         mediaRecorder.onstop = async () => {
           const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
           const formData = new FormData();
-          formData.append("learner_id", document.getElementById("learnerId").value);
-          formData.append("grammar_id", grammarPointSelect.value);
+          formData.append("learner_id", learnerId);
+          formData.append("grammar_id", grammarId);
           formData.append("audio", audioBlob, "recording.webm");
 
           const res = await fetch(`${backendUrl}/api/grammar`, { method: "POST", body: formData });

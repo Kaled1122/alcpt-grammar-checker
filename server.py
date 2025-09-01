@@ -69,7 +69,7 @@ Learner sentence:
 """
 
 # ---------------------------
-# Save learner logs (Excel)
+# Save learner logs to Excel
 # ---------------------------
 LOG_FILE_XLSX = "learner_logs.xlsx"
 
@@ -86,6 +86,7 @@ def save_log(learner_id, data):
     ]
 
     if not os.path.exists(LOG_FILE_XLSX):
+        # Create workbook with headers
         wb = Workbook()
         ws = wb.active
         ws.title = "Logs"
@@ -132,6 +133,7 @@ def transcribe_audio_to_text(file_storage) -> str:
 # ---------------------------
 def run_grammar_llm(user_text: str, grammar_id: Optional[int]) -> dict:
     prompt = make_prompt(user_text, grammar_id)
+
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         temperature=0,
@@ -140,6 +142,7 @@ def run_grammar_llm(user_text: str, grammar_id: Optional[int]) -> dict:
             {"role": "user", "content": prompt}
         ]
     )
+
     raw = completion.choices[0].message.content.strip()
     try:
         result = json.loads(raw)
@@ -168,18 +171,24 @@ def api_grammar_points():
 
 @app.route("/api/text", methods=["POST"])
 def api_text():
-    typed = request.form.get("typed", "").strip()
-    learner_id = request.form.get("learner_id", "anonymous")
+    learner_id = request.form.get("learner_id", "").strip()
     grammar_id = request.form.get("grammar_id", "").strip()
+    typed = request.form.get("typed", "").strip()
 
+    # ✅ Validation
+    if not learner_id.isdigit():
+        return jsonify({"error": "Learner ID (numbers only) is required."}), 400
+    if not grammar_id.isdigit():
+        return jsonify({"error": "Grammar point selection is required."}), 400
     if not typed:
-        return jsonify({"error": "No text provided"}), 400
+        return jsonify({"error": "No text provided."}), 400
 
-    sel_id = int(grammar_id) if grammar_id.isdigit() else None
+    sel_id = int(grammar_id)
     out = run_grammar_llm(typed, sel_id)
+
     out["transcript"] = typed
     out["selected_grammar_label"] = next(
-        (p["title"] for p in GRAMMAR_POINTS if str(p["id"]) == grammar_id),
+        (p["title"] for p in GRAMMAR_POINTS if p["id"] == sel_id),
         None
     )
     save_log(learner_id, out)
@@ -187,11 +196,20 @@ def api_text():
 
 @app.route("/api/grammar", methods=["POST"])
 def api_grammar():
-    learner_id = request.form.get("learner_id", "anonymous")
+    learner_id = request.form.get("learner_id", "").strip()
     grammar_id = request.form.get("grammar_id", "").strip()
+
+    # ✅ Validation
+    if not learner_id.isdigit():
+        return jsonify({"error": "Learner ID (numbers only) is required."}), 400
+    if not grammar_id.isdigit():
+        return jsonify({"error": "Grammar point selection is required."}), 400
+
+    # Check typed first
     typed = request.form.get("typed", "").strip()
     transcript = typed
 
+    # If no text → transcribe audio
     if not typed:
         file = request.files.get("audio")
         transcript = transcribe_audio_to_text(file)
@@ -199,11 +217,12 @@ def api_grammar():
     if not transcript:
         return jsonify({"error": "No speech or text found."}), 400
 
-    sel_id = int(grammar_id) if grammar_id.isdigit() else None
+    sel_id = int(grammar_id)
     out = run_grammar_llm(transcript, sel_id)
+
     out["transcript"] = transcript
     out["selected_grammar_label"] = next(
-        (p["title"] for p in GRAMMAR_POINTS if str(p["id"]) == grammar_id),
+        (p["title"] for p in GRAMMAR_POINTS if p["id"] == sel_id),
         None
     )
     save_log(learner_id, out)
